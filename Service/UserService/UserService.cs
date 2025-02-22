@@ -29,7 +29,7 @@ namespace UserServices.Server
             {
                 var userPassword = login.Password;
                 var passwordBd = user.PasswordHash;
-                bool result = BCrypt.Net.BCrypt.Verify(userPassword, passwordBd);
+                bool result = VerifyPassword(userPassword, passwordBd);
                 if(result)
                 {
                     return true;
@@ -81,8 +81,8 @@ namespace UserServices.Server
                 FirstName = registerUser.FirstName,
                 LastName = registerUser.LastName,
                 Email = registerUser.Email,
+                PasswordHash = GetPassword(registerUser.Password)
             };
-            //user.SetPasswod(registerUser.Password);
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();
             return new UserResponseDto
@@ -92,6 +92,15 @@ namespace UserServices.Server
                 FirstName = user.FirstName,
                 Email = user.Email
             };
+        }
+
+        private static bool VerifyPassword(string password, string passwordHash)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, passwordHash);
+        }
+        private static string GetPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }
