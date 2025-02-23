@@ -32,30 +32,38 @@ namespace ProductServices.Server
             return true;
         }
 
-        public async Task<List<CreateProductResponse>> GetAll()
+        public async Task<List<CreateProductResponse>> GetFilteredProducts(ProductFilterRequest? request)
         {
-            var allProduct = _product.ToList();
-            var productResponse = allProduct.Select(p => new CreateProductResponse {Id = p.Id, Name = p.Name, Price = p.Price, CategoryId = p.CategoryId}).ToList();
-            return productResponse;
-        }
-
-        public async Task<List<CreateProductResponse>> GetFilteredProducts(ProductFilterRequest request)
-        {
-            
-            var filteredProducts = _product.Where(f => 
-                (f.Name == request.Name || f.Price >= request.MinPrice || f.Price <= request.MaxPrice || f.CategoryId == request.ProductCategory)
-            );
-            
-            var result = filteredProducts.Select(p => new CreateProductResponse
+            if(request == null)
             {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                CategoryId = p.CategoryId
+                var filteredProducts = _product.ToList();
+                var result = filteredProducts.Select(p => new CreateProductResponse
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    CategoryId = p.CategoryId
+                    
+                }).ToList();
+                return result;
                 
-            }).ToList();
+            }
+            else
+            {
+                var filteredProducts = _product.Where(f => 
+                (f.Name == request.Name || f.Price >= request.MinPrice || f.Price <= request.MaxPrice || f.CategoryId == request.ProductCategory)
+                ).ToList();
+                var result = filteredProducts.Select(p => new CreateProductResponse
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    CategoryId = p.CategoryId
+                    
+                }).ToList();
 
-            return result;
+                return result;
+            }
         }
 
         public async Task<CreateProductResponse> Update(Guid Id, CreateProductRequest createProduct)

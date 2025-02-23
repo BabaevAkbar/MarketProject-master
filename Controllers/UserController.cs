@@ -4,12 +4,10 @@ namespace Controllers
     [Route("api/users")]
     public class UserController : ControllerBase
     {
-        private readonly MarketProjectDbContext? _context;
         private readonly IUserService _service;
-        public UserController(MarketProjectDbContext context, IUserService service)
+        public UserController( IUserService service)
         {
             _service = service;
-            _context = context;
         }
         [HttpPost("register")]
         public async Task<ActionResult<UserResponseDto>> Register([FromBody] RegisterUserRequest request)
@@ -45,20 +43,6 @@ namespace Controllers
                 return Unauthorized(new ApiResponse<string>(ex.Message));
             }
         }
-
-        // [HttpPost("login")]
-        // public async Task<IActionResult> Login([FromBody] LoginRequest request)
-        // {
-        //     try
-        //     {
-        //         var user = await _userdoService.LoginAsyns(request);
-        //         return Ok(new ApiResponse<UserResponseDto>(user, "Успешный вход"));
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return Unauthorized(new ApiResponse<string>(ex.Message));
-        //     }
-        // }
 
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()

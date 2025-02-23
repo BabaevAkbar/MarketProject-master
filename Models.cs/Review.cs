@@ -7,6 +7,7 @@ namespace MarketProject.Models
         public Guid ProductId{ get; set; }
         public int Rating{ get; set; }
         public string? Comment{ get; set; }
+        public DateTime Time { get; set; }
 
         public User? User{ get; set;}
         public Product? Product{ get; set; }

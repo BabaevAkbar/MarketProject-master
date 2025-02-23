@@ -4,40 +4,42 @@ namespace Controllers
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
-        private readonly MarketProjectDbContext _context;
-
-        public ProductController(MarketProjectDbContext context)
+        private readonly IProductService _service;
+        public ProductController(IProductService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        // [HttpGet("filter")]
-        // public async Task<IActionResult> GetFilterProduct([FromBody] ProductFilterRequest fileRequest)
-        // {
-        //     var product = await _productService.GetAll();
-        //     ApiResponse<List<CreateProductResponse>> result = new ApiResponse<List<CreateProductResponse>>(product, "Фильтарция успешно выполнена.");
-        //     return (IActionResult)result;
-        // }
+        [HttpGet("get")]
+        public async Task<IActionResult> GetFilterPRoducts([FromBody]ProductFilterRequest? request)
+        {
+            try
+            {
+                var products = await _service.GetFilteredProducts(request);
+                return Ok(new ApiResponse<CreateProductResponse>(products, "Пользователь успешно зарегистрирован"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<string>(ex.Message));
+            }
+        }
 
-        // [HttpGet("filter")]
-        // public async Task<ActionResult<ApiResponse<CreateProductResponse>>> GetFilterProduct(ProductFilterRequest fileRequest)
-        // {
-        //     var productss = await _context.Product
-        //         .Include(a => a.Category);
-        //     var products = await _context.(fileRequest);
-        //     var result = new ApiResponse<List<CreateProductResponse>>(products, "Фильтрация успешно выполнена.");
-        //     return Ok(result);
-        // }
+        [HttpGet("filter")]
+        public async Task<ActionResult<ApiResponse<CreateProductResponse>>> GetFilterProduct(ProductFilterRequest fileRequest)
+        {
+            
+        }
 
-        // [HttpPost]
-        // public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequest createProduct)
-        // {
-        //     if(!ModelState.IsValid)
-        //     {
-        //         return BadRequest(new ApiResponse<string>("Ошибка валидации данных."));
-        //     }
-        //     var product = await _context.Create(createProduct);
-        //     return CreatedAtAction(nameof(GetFilterProduct), null, new ApiResponse<CreateProductResponse>(product, "Продукт успешно создан."));
-        // }
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromBody] CreateProductRequest createProduct)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse<string>("Ошибка валидации данных."));
+            }
+            var product = await _context.Create(createProduct);
+            return CreatedAtAction(nameof(GetFilterProduct), null, new ApiResponse<CreateProductResponse>(product, "Продукт успешно создан."));
+        }/ public async Task<IActionResult> GetFilterProduct([FromBody] ProductFilterRequest fileRequest)
+        
     }
 }

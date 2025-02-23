@@ -41,32 +41,6 @@ namespace UserServices.Server
             }
 
             return false;
-            // var userEmail1 = await _context.User.FirstOrDefaultAsync(u => u.Email == login.Email);
-            // if(userEmail1 != null)
-            // {
-            //     var passwordHasher = new PasswordHasher<User>();
-            //     var userPassword = passwordHasher.VerifyHashedPassword(userEmail1, userEmail1.PasswordHash, login.Password);
-            //     if(userPassword == PasswordVerificationResult.Success)
-            //     {
-            //         return true;
-            //     }
-            //     else
-            //     {
-            //         return false;
-            //     }
-                
-            // }
-            // return false;
-
-            // var result = await _context.User.AnyAsync(u => u.Email == login.Email && u.PasswordHash == login.Password);
-            // if(result)
-            // {
-            //     return true;
-            // }
-            // else
-            // {
-            //     return false;
-            // }
             
         }
 

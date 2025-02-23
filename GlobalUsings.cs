@@ -21,5 +21,6 @@ global using Server.IOrderService;
 global using Server.IReviewService;
 global using ProductServices.Server;
 global using UserServices.Server;
+global using ReviewService.Server;
 global using Requests;
 global using Responses;
