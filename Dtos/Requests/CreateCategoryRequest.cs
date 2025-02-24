@@ -4,5 +4,6 @@ namespace Requests
     {
         [Required]
         public string? Name { get; set; }
+        public Guid? ParentCategoryId{ get; set; }
     }
 }

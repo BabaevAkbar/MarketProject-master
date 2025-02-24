@@ -23,15 +23,20 @@ namespace MarketProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ParentCtegoryId")
+                    b.Property<Guid?>("ParentCategoryId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Category");
                 });
@@ -67,10 +72,7 @@ namespace MarketProject.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("ProductId1")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Quantity")
@@ -83,7 +85,7 @@ namespace MarketProject.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductId1");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderItem");
                 });
@@ -130,6 +132,9 @@ namespace MarketProject.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
@@ -161,7 +166,6 @@ namespace MarketProject.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Role")
@@ -170,6 +174,13 @@ namespace MarketProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("MarketProject.Models.Category", b =>
+                {
+                    b.HasOne("MarketProject.Models.Category", null)
+                        .WithMany("SubCategories")
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("MarketProject.Models.Order", b =>
@@ -193,7 +204,7 @@ namespace MarketProject.Migrations
 
                     b.HasOne("MarketProject.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId1")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -235,6 +246,8 @@ namespace MarketProject.Migrations
             modelBuilder.Entity("MarketProject.Models.Category", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("MarketProject.Models.Order", b =>

@@ -1,9 +1,8 @@
-namespace Server.ICtegoryService
+namespace Server.ICategoryService
 {
-    interface ICtegoryService
+    public interface ICategoryService
     {
-        Task<List<CategoryResponseDto>>GetAll();
-        //Task<List<Category>>GetChild(Guid pId);
+        Task<List<CategoryResponseDto>>Get();
         Task<bool> Delete(Guid id);
         Task<CategoryResponseDto> Create(CreateCategoryRequest createCategoryRequest);
         Task<List<CategoryResponseDto>> Update(Guid Id,CreateCategoryRequest createCategoryRequest);

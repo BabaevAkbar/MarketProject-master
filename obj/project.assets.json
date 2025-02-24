@@ -3884,19 +3884,19 @@
     ]
   },
   "packageFolders": {
-    "/home/muhammad/.nuget/packages/": {}
+    "C:\\Users\\Akbar\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/muhammad/projects/MarketProject-master/MarketProject.csproj",
+      "projectUniqueName": "C:\\Users\\Akbar\\Desktop\\MarketProject-master\\MarketProject.csproj",
       "projectName": "MarketProject",
-      "projectPath": "/home/muhammad/projects/MarketProject-master/MarketProject.csproj",
-      "packagesPath": "/home/muhammad/.nuget/packages/",
-      "outputPath": "/home/muhammad/projects/MarketProject-master/obj/",
+      "projectPath": "C:\\Users\\Akbar\\Desktop\\MarketProject-master\\MarketProject.csproj",
+      "packagesPath": "C:\\Users\\Akbar\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Akbar\\Desktop\\MarketProject-master\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/muhammad/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Akbar\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3976,7 +3976,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.112/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.112/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

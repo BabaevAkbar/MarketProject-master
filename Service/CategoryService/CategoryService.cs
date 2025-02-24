@@ -1,6 +1,6 @@
 namespace ProductWebApi.Server
 {
-    public class CategoryService : ICtegoryService
+    public class CategoryService : ICategoryService
     {
         private readonly MarketProjectDbContext _context;
 
@@ -9,18 +9,35 @@ namespace ProductWebApi.Server
             _context = context;
         }
 
+        
+
         public async Task<CategoryResponseDto> Create(CreateCategoryRequest createCategoryRequest)
         {
-            Category category = new Category()
+            Category category = new Category
             {
+                Id = Guid.NewGuid(),
                 Name = createCategoryRequest.Name,
+                ParentCategoryId = createCategoryRequest.ParentCategoryId
             };
+            if (category.ParentCategoryId.HasValue)
+            {
+                var parentCategory = await _context.Category.FirstOrDefaultAsync(c => c.Id == category.ParentCategoryId.Value);
+                if (parentCategory != null)
+                {
+                    parentCategory.SubCategories.Add(category);
+                    _context.Update(parentCategory);
+                }
+            }
+
+            await _context.AddAsync(category);
             await _context.SaveChangesAsync();
-            CategoryResponseDto categoryResponseDto = new CategoryResponseDto()
+            CategoryResponseDto categoryResponseDto = new CategoryResponseDto
             {
                 Id = category.Id,
                 Name = category.Name,
+                ParentCategoryId = category.ParentCategoryId
             };
+
             return categoryResponseDto;
         }
 
@@ -76,7 +93,7 @@ namespace ProductWebApi.Server
             
         }
 
-        public async Task<List<CategoryResponseDto>?> GetAll()
+        public async Task<List<CategoryResponseDto>?> Get()
         {
             var allCategory = await _context.Category.ToListAsync();
 
@@ -89,18 +106,18 @@ namespace ProductWebApi.Server
             if(parentId.HasValue)
             {
                 var getCategory = 
-                await Task.Run(() => _context.Category.Where(c => c.ParentCtegoryId == parentId));
+                await Task.Run(() => _context.Category.Where(c => c.ParentCategoryId == parentId));
             }
             else
             {
-                var getCategory = await Task.Run(() => _context.Category.Where(c => c.ParentCtegoryId == null));
+                var getCategory = await Task.Run(() => _context.Category.Where(c => c.ParentCategoryId == null));
             }
 
             var categories = await _context.Category.Select(c => new CategoryTreeResponseDto
             {
                 Id = c.Id,
                 Name = c.Name,
-                ParentId = c.ParentCtegoryId
+                ParentId = c.ParentCategoryId
             }).ToListAsync();
 
             var lookUp = categories.ToDictionary(c => c.Id);

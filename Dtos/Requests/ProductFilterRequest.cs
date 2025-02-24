@@ -7,6 +7,6 @@ namespace Requests
         public decimal? MinPrice{ get; set; }
         [Range(0, double.MaxValue, ErrorMessage = "Максимальная цена должна быть положительным.")]
         public decimal? MaxPrice{ get; set; }
-        public Guid ProductCategory { get; set; }
+        public Guid? ProductCategory { get; set; }
     }
 }

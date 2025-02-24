@@ -11,23 +11,10 @@ namespace Controllers
         }
 
         [HttpGet("get")]
-        public async Task<IActionResult> GetFilterPRoducts([FromBody]ProductFilterRequest? request)
+        public async Task<IActionResult> GetFilterPRoducts([FromQuery]ProductFilterRequest? request)
         {
-            try
-            {
-                var products = await _service.GetFilteredProducts(request);
-                return Ok(new ApiResponse<CreateProductResponse>(products, "Пользователь успешно зарегистрирован"));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse<string>(ex.Message));
-            }
-        }
-
-        [HttpGet("filter")]
-        public async Task<ActionResult<ApiResponse<CreateProductResponse>>> GetFilterProduct(ProductFilterRequest fileRequest)
-        {
-            
+            var products = await _service.GetFilteredProducts(request);
+            return Ok(products);
         }
 
         [HttpPost("create")]
@@ -37,9 +24,9 @@ namespace Controllers
             {
                 return BadRequest(new ApiResponse<string>("Ошибка валидации данных."));
             }
-            var product = await _context.Create(createProduct);
-            return CreatedAtAction(nameof(GetFilterProduct), null, new ApiResponse<CreateProductResponse>(product, "Продукт успешно создан."));
-        }/ public async Task<IActionResult> GetFilterProduct([FromBody] ProductFilterRequest fileRequest)
+            var product = await _service.Create(createProduct);
+            return Ok(new ApiResponse<CreateProductResponse>(product, "Продукт успешно создан."));
+        }
         
     }
 }

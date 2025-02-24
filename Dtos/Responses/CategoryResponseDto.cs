@@ -4,6 +4,6 @@ namespace Responses
     {
         public Guid Id{ get; set; }
         public string? Name {  get; set; }
-        public List<Category> Children { get; set; } = new();
+        public Guid? ParentCategoryId { get; set; } = new();
     }
 }
